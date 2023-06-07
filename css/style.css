@@ -3,9 +3,17 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: black;
 }
 
-#gamesnake {
-    width: 512px;
-    height: 512px;
+.caua{
+    font-size: 55px;
+    color: red;
+}
+
+.tamanho{
+    background-color: red;
+    height: 40px;
+    width: 200px;
+    border: 2px solid red;
 }

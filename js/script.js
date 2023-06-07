@@ -1,44 +1,52 @@
-// Criar elemento que irá rodar o jogo
-let canvas = document.getElementById("snake");
+
+
+// elemento roda jogo
+let canvas = document.getElementById("gamesnake");
 let context = canvas.getContext("2d");
 let box = 32;
+const img = '<img src="img/bola.png">'
 
-//Criar cobrinha como vetor, ja que ela vai ser uma serie de cordenadas, que quando pintadas, criam quadradinhos
+// kobrinha
 let snake = [];
 
-//Inicio da cobrinha
-snake[0] = {
+// início kobrinha
+snake[0] ={
     x: 8 * box,
     y: 8 * box
 }
 
-//Direcao
-let direction = "right";
+// direção
+let direction = "right"
 
-//Comidas
-let food = {
+// comida
+let food ={
     x: Math.floor(Math.random() * 15 + 1) * box,
     y: Math.floor(Math.random() * 15 + 1) * box
-
 }
 
-//funcao para criar o background
+// fundo
 function criarBG() {
-    context.fillStyle = "lightgreen";
-    //Desenha o retangulo usando x e y e a largura e a altura setadas
+    context.fillStyle = "black"
+// desenha retângulo usnado x e y
     context.fillRect(0, 0, 16 * box, 16 * box);
 }
 
-//Função para criar a cobrinha
-function criarCobrinha() {
-    for (i = 0; i < snake.length; i++) {
-        context.fillStyle = "green";
+// cria kobrinha
+function criaCobrinha (){
+    for(i = 0; i < snake.length; i++) {
+        context.fillStyle = "red"
         context.fillRect(snake[i].x, snake[i].y, box, box)
     }
 }
 
-// Quando um evento acontece, detecta e chama a funcao de update
-document.addEventListener('keydown, update');
+// desenha comida
+function drawFood() {
+    context.fillStyle = "yellow";
+    context.fillRect(food.x, food.y, box, box)
+}
+
+// detecta e chama a função update, quando acontece evento
+document.addEventListener('keydown', update);
 
 function update(event) {
     if (event.keyCode == 37 && direction != 'right') direction = 'left';
@@ -47,36 +55,54 @@ function update(event) {
     if (event.keyCode == 40 && direction != 'up') direction = 'down';
 }
 
-//funcao principal
+// função peincipal
 function iniciarJogo() {
-    if (snake[0].x > 15 * box && direction == "right") { snake[0].x = 0 }
-    if (snake[0].x > 0 * box && direction == "left") { snake[0].x = 16 * box }
-    if (snake[0].y > 15 * box && direction == "down") { snake[0].y = 0 }
-    if (snake[0].y > 0 * box && direction == "up") { snake[0].y = 16 * box }
+    if (snake[0].x > 15*box && direction == "right") {
+        snake[0].x = 0;
+    }
+    if (snake[0].x < 0 && direction == "left") {
+        snake[0].x = 16 * box;
+    }
+    if (snake[0].y > 15*box && direction == "down") {
+        snake[0].y = 0;
+    }
+    if (snake[0].y < 0 && direction == "up") {
+        snake[0].y = 16 * box;
+    }
+
+    for (i = 1; i < snake.length; i++) {
+        if (snake[0].x == snake[i].x && snake[0].y == snake[i].y){
+            clearInterval(jogo);
+            alert('Game Over :(')
+        }
+    }
 
     criarBG();
-    criarCobrinha();
+    criaCobrinha();
     drawFood();
 
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
-if(direction == "right") snakeX += box;
-if(direction == "left") snakeX -= box;
-if(direction == "up") snakeY -= box;
-if(direction == "down") snakeY += box;
+    if (direction == "right") snakeX += box; 
+    if (direction == "left") snakeX -= box; 
+    if (direction == "up") snakeY -= box; 
+    if (direction == "down") snakeY += box;
+    
+    if (snakeX != food.x || snakeY != food.y) {
+        // pop tira o último elemento da lista
+        snake.pop(); 
+    } else {
+        food.x = Math.floor(Math.random() * 15 +1) * box;
+        food.y = Math.floor(Math.random() * 15 +1) * box;
+    }
 
-if(snakeX != food.x || snakeY != food.y){
-    snake.pop(); //pop tira o ultimo elemento da lista
-}else{
-    food.x = Math.floor(Math.rambom() * 15 +1) * box;
-    food.y = Math.floor(Math.rambom() * 15 +1) * box;
-}
-let newHead = {
-    x: snakeX,
-    y: snakeY
+    let newHead ={
+        x: snakeX,
+        y: snakeY
+    }
+// método unshift adiciona como primeiro quadrinho da cobrinha
+    snake.unshift(newHead)
 }
 
-snake.unshift(newHead); //metodo unshiftvadiciona como primeiro quadrinho da cobrinha
-
-}
+let jogo = setInterval(iniciarJogo, 250);
