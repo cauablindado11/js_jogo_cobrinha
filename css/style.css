@@ -7,13 +7,18 @@ body {
 }
 
 .caua{
-    font-size: 55px;
-    color: red;
+    font-size: 35px;
+    color: rgb(165, 165, 165);;
 }
 
 .tamanho{
-    background-color: red;
+    background-color: rgb(165, 165, 165);;
     height: 40px;
     width: 200px;
-    border: 2px solid red;
+    border: 2px solid rgb(165, 165, 165);;
+}
+
+#pnts{
+    color: rgb(165, 165, 165);;
+    font-size: 25px;
 }
